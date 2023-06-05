@@ -1,1 +1,1 @@
-# neuralNetworkPlayLife
+# Neural Network, Play Life!

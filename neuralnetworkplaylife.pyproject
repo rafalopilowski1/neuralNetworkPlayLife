@@ -10,5 +10,8 @@
         "lib/deep_learning/input.py",
         "lib/deep_learning/local_neural_network.py",
         "lib/deep_learning/perceptron.py",
+        "lib/game_of_life/board.py",
+        "lib/game_of_life/cell.py",
+        "lib/game_of_life/gen.py",
     ]
 }

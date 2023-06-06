@@ -3,15 +3,15 @@ from typing import List
 
 class Input:
 
-    def __init__(self, input: List[float], lives: bool):
+    def __init__(self, input: List[float], lives: int):
         self.input = input
         self.lives = lives
 
     def __repr__(self):
-        return self.__str__()
+        return f"(Input: {self.input}, lives: {self.lives})"
 
     def __str__(self):
-        return f"(Input: {self.input}, lives: {self.lives})"
+        return f"{','.join(str(x) for x in self.input)},{self.lives}"
 
     def __eq__(self, other):
         for i in range(len(self.input)):

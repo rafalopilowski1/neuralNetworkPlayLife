@@ -1,7 +1,7 @@
 from typing import List
 
 
-class Cell:
+class Input:
 
     def __init__(self, input: List[float], lives: bool):
         self.input = input

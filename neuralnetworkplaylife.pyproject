@@ -1,0 +1,14 @@
+{
+    "files": [
+        "views_qt/dialog.ui",
+        "views/guiwindow.py",
+        "main.py",
+        "views_qt/mainwindow.ui",
+        "views/aboutdialog.py",
+        "models/training_list_model.py",
+        "lib/utils/utils.py",
+        "lib/deep_learning/input.py",
+        "lib/deep_learning/local_neural_network.py",
+        "lib/deep_learning/perceptron.py",
+    ]
+}

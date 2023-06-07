@@ -37,3 +37,5 @@ class Perceptron:
         # print(f"Weights after: {self.weights}")
         self.threshold = self.weights.pop()
         # print(f"New threshold: {self.threshold}")
+    def backpropagate(self, input_data: List[float], expected: int):
+        pass

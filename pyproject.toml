@@ -1,11 +1,12 @@
 [tool.poetry]
-name = "neuralnetworkplaylife"
+name = "neuralNetworkPlayLife"
 version = "0.1.0"
 description = ""
 authors = ["Rafał Opiłowski <rafalopilowski1@outlook.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = ">=3.11, <3.12"
+numpy = "^1.24.3"
 PySide6 = "^6.5.1"
 
 [tool.poetry.dev-dependencies]

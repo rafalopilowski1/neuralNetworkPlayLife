@@ -1,9 +1,9 @@
-from typing import List
+import numpy as np
 
 
 class Input:
 
-    def __init__(self, input: List[float], lives: int):
+    def __init__(self, input: list[int], lives: int):
         self.input = input
         self.lives = lives
 

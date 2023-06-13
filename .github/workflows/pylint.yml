@@ -18,7 +18,6 @@ jobs:
       - name: Install all dependencies
         run: |
           poetry install
-          poetry env use
       - name: Build Qt UI files to .py files
         run: |
           poetry run pyside6-project build

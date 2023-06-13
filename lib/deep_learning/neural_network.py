@@ -1,6 +1,7 @@
 from lib.deep_learning.layer import Layer
 import lib.deep_learning.layer as layer_lib
 
+
 class NeuralNetwork:
 
     def __init__(self, layers: list[Layer]):

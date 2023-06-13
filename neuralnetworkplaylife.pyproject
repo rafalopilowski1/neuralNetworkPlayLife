@@ -9,7 +9,7 @@
         "lib/deep_learning/input.py",
         "lib/deep_learning/layer.py",
         "lib/deep_learning/neural_network.py",
-        "lib/deep_learning/perceptron.py",
+        "lib/deep_learning/perceptron_lib.py",
         "lib/game_of_life/board.py",
         "lib/game_of_life/cell.py",
         "lib/game_of_life/gen.py"

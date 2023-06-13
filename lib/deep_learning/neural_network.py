@@ -1,5 +1,5 @@
 from lib.deep_learning.layer import Layer
-
+import lib.deep_learning.layer as layer_lib
 
 class NeuralNetwork:
 
@@ -16,7 +16,7 @@ class NeuralNetwork:
         layers_result = self.forward_propagate(input)
         expected = [expected]
         for i, layer in enumerate(reversed(self.layers)):
-            signal_error = layer.signal_error(layers_result[-i - 1], expected)
+            signal_error = layer_lib.signal_error(layers_result[-i - 1], expected)
             layer.update(signal_error, learning_rate, layers_result[-i - 2])
             if i < len(self.layers) - 1:
                 expected = [sum([signal_error[j] * layer.perceptrons[j].weights[i] for j in range(len(signal_error))])

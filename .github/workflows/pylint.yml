@@ -23,4 +23,4 @@ jobs:
           poetry run pyside6-project build
       - name: Lint .py files
         run: |
-          poetry run pylint $(git ls-files '*.py')
+          poetry run flake8 $(git ls-files '*.py')

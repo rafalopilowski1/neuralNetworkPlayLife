@@ -1,6 +1,3 @@
-from typing import List
-
-
 class Cell:
 
     def __init__(self, x, y, lives):
@@ -9,7 +6,6 @@ class Cell:
         self.lives = lives
 
     def next_generation(self, cells):
-        print('cell next generation')
         nearby_cells = [
             cell for cell in cells if cell != self and cell.is_nearby(self)
         ]

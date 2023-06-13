@@ -7,6 +7,7 @@
         "views/aboutdialog.py",
         "models/training_list_model.py",
         "lib/deep_learning/input.py",
+        "lib/deep_learning/layer.py",
         "lib/deep_learning/neural_network.py",
         "lib/deep_learning/perceptron.py",
         "lib/game_of_life/board.py",

@@ -14,16 +14,17 @@ class NeuralNetwork:
 
     def backpropagate(self, input, expected, learning_rate):
         layers_result = self.forward_propagate(input)
+        expected = [expected]
         for i, layer in enumerate(reversed(self.layers)):
             signal_error = layer.signal_error(layers_result[-i - 1], expected)
             layer.update(signal_error, learning_rate, layers_result[-i - 2])
-            expected = signal_error
+            if i < len(self.layers) - 1:
+                expected = [sum([signal_error[j] * layer.perceptrons[j].weights[i] for j in range(len(signal_error))])
+                            for i in range(len(layers_result[-i - 2]))]
 
-    def train(self, inputs, outputs, max_err, learning_rate):
-        i = 0
+    def train(self, inputs, outputs, max_epoch, learning_rate):
         error = 1
-        while error > max_err:
-            i += 1
+        for i in range(max_epoch):
             print(f"Epoch {i + 1}, error: {error}")
             for input, output in zip(inputs, outputs):
                 self.backpropagate(input, output, learning_rate)

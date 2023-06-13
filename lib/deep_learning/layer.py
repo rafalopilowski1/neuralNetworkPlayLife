@@ -10,10 +10,9 @@ class Layer:
     def forward_propagate(self, inputs):
         return [perceptron.activate(inputs) for perceptron in self.perceptrons]
 
-    def signal_error(self, outputs, expected) -> float:
-        errors = [perceptron.signal_error(output, expected) for _, output in zip(self.perceptrons, outputs)]
-        return sum(errors) / len(errors)
+    def signal_error(self, outputs, expected) -> list[float]:
+        return [perceptron.signal_error(output, expect) for output, expect in zip(outputs, expected)]
 
-    def update(self, delta, learning_rate, output):
-        for perceptron in self.perceptrons:
+    def update(self, deltas, learning_rate, outputs):
+        for perceptron, delta, output in zip(self.perceptrons, deltas, outputs):
             perceptron.update(delta, learning_rate, output)

@@ -19,6 +19,6 @@ if __name__ == "__main__":
     outputs = [input.lives for input in data]
     neuralNetwork = NeuralNetwork(
         [Layer(4, 4), Layer(4, 2), Layer(2, 1)])
-    neuralNetwork.train(inputs, outputs, 0.01, 1)
+    neuralNetwork.train(inputs, outputs, 1000, 1)
     print(neuralNetwork.predict([0, 0, 0, 0]))
     sys.exit(app.exec())

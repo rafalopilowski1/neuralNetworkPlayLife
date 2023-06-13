@@ -1,6 +1,3 @@
-from typing import List
-
-
 class Cell:
 
     def __init__(self, x, y, lives):

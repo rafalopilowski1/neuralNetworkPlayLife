@@ -1,7 +1,8 @@
-from PySide6.QtWidgets import QMainWindow
 from PySide6.QtCore import Slot
-from views_qt.ui_mainwindow import Ui_MainWindow
+from PySide6.QtWidgets import QMainWindow
+
 from views.about_dialog import AboutDialog
+from views_qt.ui_mainwindow import Ui_MainWindow
 
 
 class GuiWindow(QMainWindow):

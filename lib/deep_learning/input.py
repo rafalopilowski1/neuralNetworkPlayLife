@@ -1,6 +1,3 @@
-import numpy as np
-
-
 class Input:
 
     def __init__(self, input: list[int], lives: int):

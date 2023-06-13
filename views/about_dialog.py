@@ -1,4 +1,5 @@
 from PySide6.QtWidgets import QDialog
+
 from views_qt.ui_dialog import Ui_Dialog
 
 

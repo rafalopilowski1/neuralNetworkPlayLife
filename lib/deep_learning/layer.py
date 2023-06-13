@@ -1,9 +1,9 @@
-from lib.deep_learning import perceptron_lib
-from lib.deep_learning.perceptron_lib import Perceptron
+from lib.deep_learning import perceptron as perc_lib
+from lib.deep_learning.perceptron import Perceptron
 
 
 def signal_error(outputs, expected) -> list[float]:
-    return [perceptron_lib.signal_error(output, expect) for output, expect in zip(outputs, expected)]
+    return [perc_lib.signal_error(output, expect) for output, expect in zip(outputs, expected)]
 
 
 class Layer:

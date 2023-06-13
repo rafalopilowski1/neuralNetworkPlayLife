@@ -25,4 +25,5 @@ jobs:
     - name: Analysing the code with pyside6 and pylint
       run: |
         poetry run pyside6-project build
-        poetry run pylint $(git ls-files '*.py')
+        poetry shell
+        pylint $(git ls-files '*.py')

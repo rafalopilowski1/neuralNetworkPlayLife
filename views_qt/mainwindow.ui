@@ -29,39 +29,11 @@
    </property>
    <layout class="QGridLayout" name="gridLayout_2">
     <item row="0" column="0">
-     <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0">
+     <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0,0">
       <property name="sizeConstraint">
        <enum>QLayout::SetMaximumSize</enum>
       </property>
-      <item row="2" column="3">
-       <widget class="QProgressBar" name="progressBar">
-        <property name="value">
-         <number>0</number>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QPushButton" name="trainButton">
-        <property name="text">
-         <string>Train</string>
-        </property>
-        <property name="icon">
-         <iconset theme="system-software-update">
-          <normaloff>.</normaloff>.</iconset>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0" rowspan="2">
-       <widget class="QListView" name="listView">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="3">
+      <item row="1" column="2">
        <widget class="QGroupBox" name="groupBox_2">
         <property name="title">
          <string>After:</string>
@@ -71,12 +43,12 @@
         </property>
         <layout class="QVBoxLayout" name="verticalLayout">
          <item>
-          <widget class="QTableView" name="tableView_2"/>
+          <widget class="QTableWidget" name="tableWidget_2"/>
          </item>
         </layout>
        </widget>
       </item>
-      <item row="0" column="3">
+      <item row="0" column="2">
        <widget class="QGroupBox" name="groupBox">
         <property name="title">
          <string>Before:</string>
@@ -86,17 +58,17 @@
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <item>
-          <widget class="QTableView" name="tableView">
-           <attribute name="horizontalHeaderVisible">
+          <widget class="QTableWidget" name="tableWidget">
+           <property name="rowCount">
+            <number>0</number>
+           </property>
+           <attribute name="horizontalHeaderCascadingSectionResizes">
             <bool>false</bool>
            </attribute>
-           <attribute name="horizontalHeaderHighlightSections">
+           <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
             <bool>false</bool>
            </attribute>
-           <attribute name="verticalHeaderVisible">
-            <bool>false</bool>
-           </attribute>
-           <attribute name="verticalHeaderHighlightSections">
+           <attribute name="verticalHeaderCascadingSectionResizes">
             <bool>false</bool>
            </attribute>
           </widget>
@@ -104,7 +76,48 @@
         </layout>
        </widget>
       </item>
+      <item row="4" column="0">
+       <widget class="QSpinBox" name="generationSpinBox">
+        <property name="wrapping">
+         <bool>false</bool>
+        </property>
+        <property name="maximum">
+         <number>999999999</number>
+        </property>
+        <property name="stepType">
+         <enum>QAbstractSpinBox::AdaptiveDecimalStepType</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="2">
+       <widget class="QProgressBar" name="progressBar">
+        <property name="value">
+         <number>0</number>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" rowspan="4">
+       <widget class="QListWidget" name="listWidget">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </item>
      </layout>
+    </item>
+    <item row="1" column="0">
+     <widget class="QPushButton" name="trainButton">
+      <property name="text">
+       <string>Train</string>
+      </property>
+      <property name="icon">
+       <iconset theme="system-software-update">
+        <normaloff>.</normaloff>.</iconset>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -121,6 +134,7 @@
     <property name="title">
      <string>App</string>
     </property>
+    <addaction name="actionNew_board_set"/>
     <addaction name="actionAbout"/>
     <addaction name="actionQuit"/>
    </widget>
@@ -134,6 +148,11 @@
   <action name="actionQuit">
    <property name="text">
     <string>Quit</string>
+   </property>
+  </action>
+  <action name="actionNew_board_set">
+   <property name="text">
+    <string>New board set</string>
    </property>
   </action>
  </widget>

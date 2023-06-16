@@ -4,8 +4,8 @@ import lib.deep_learning.layer as layer_lib
 
 class NeuralNetwork:
 
-    def __init__(self, layers: list[Layer]):
-        self.layers: list[Layer] = layers
+    def __init__(self, *layers):
+        self.layers: list[Layer] = [*layers]
 
     def forward_propagate(self, inputs):
         outputs = [inputs]

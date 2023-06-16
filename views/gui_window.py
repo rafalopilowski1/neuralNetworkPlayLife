@@ -1,5 +1,5 @@
 from PySide6.QtCore import Slot
-from PySide6.QtWidgets import QMainWindow
+from PySide6.QtWidgets import QMainWindow, QAbstractItemView
 
 from views.about_dialog import AboutDialog
 from views_qt.ui_mainwindow import Ui_MainWindow
@@ -16,6 +16,9 @@ class GuiWindow(QMainWindow):
         self.ui.actionAbout.triggered.connect(self.on_about_menu_triggered)
         self.ui.actionQuit.triggered.connect(self.on_about_quit_triggered)
         self.ui.trainButton.clicked.connect(self.on_train_button_clicked)
+
+        self.ui.tableWidget.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
+        self.ui.tableWidget_2.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
 
     @Slot(name="about_menu")
     def on_about_menu_triggered(self):

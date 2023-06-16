@@ -1,10 +1,13 @@
 import sys
+import threading
 
 from PySide6.QtWidgets import QApplication
 
+from controller.training_controller import TrainingController
 from lib.deep_learning.layer import Layer
 from lib.deep_learning.neural_network import NeuralNetwork
 from lib.game_of_life.gen import Generator
+from models.training_model import Training
 from views.gui_window import GuiWindow
 
 if __name__ == "__main__":
@@ -15,10 +18,10 @@ if __name__ == "__main__":
     generator = Generator(10, 10, 10)
     generator.generate('training_data.csv')
     data = generator.get_data()
-    inputs = [input.input for input in data]
-    outputs = [input.lives for input in data]
-    neuralNetwork = NeuralNetwork(
-        [Layer(4, 4), Layer(4, 2), Layer(2, 1)])
-    neuralNetwork.train(inputs, outputs, 1000, 1)
-    print(neuralNetwork.predict([0, 0, 0, 0]))
+
+    neural_network = NeuralNetwork(Layer(4, 3), Layer(3, 2), Layer(2, 1))
+
+    controller = TrainingController(Training(data), neural_network, window)
+    controller.train()
+
     sys.exit(app.exec())

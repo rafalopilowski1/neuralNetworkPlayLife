@@ -6,8 +6,13 @@ from views_qt.ui_mainwindow import Ui_MainWindow
 
 
 class GuiWindow(QMainWindow):
-
+    """
+    The main GUI window
+    """
     def __init__(self):
+        """
+        Initialize the GUI window
+        """
         super().__init__()
 
         self.ui = Ui_MainWindow()
@@ -28,9 +33,17 @@ class GuiWindow(QMainWindow):
 
     @Slot(name="about_menu")
     def on_about_menu_triggered(self):
+        """
+        Shows "About" dialog
+        :return: None
+        """
         dlg = AboutDialog()
         dlg.exec()
 
     @Slot(name="about_quit")
     def on_about_quit_triggered(self):
+        """
+        Closes the application
+        :return: None
+        """
         self.close()

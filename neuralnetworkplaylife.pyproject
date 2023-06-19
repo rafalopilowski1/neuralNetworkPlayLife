@@ -1,17 +1,7 @@
 {
     "files": [
         "views_qt/dialog.ui",
-        "views/guiwindow.py",
-        "main.py",
         "views_qt/mainwindow.ui",
-        "views/aboutdialog.py",
-        "models/training_list_model.py",
-        "lib/deep_learning/input.py",
-        "lib/deep_learning/layer.py",
-        "lib/deep_learning/neural_network.py",
-        "lib/deep_learning/perceptron_lib.py",
-        "lib/game_of_life/board.py",
-        "lib/game_of_life/cell.py",
-        "lib/game_of_life/gen.py"
+        "main.py"
     ]
 }

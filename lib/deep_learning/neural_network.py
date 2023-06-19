@@ -1,5 +1,7 @@
-from lib.deep_learning.layer import Layer
+from PySide6.QtCore import Signal, QThread
+
 import lib.deep_learning.layer as layer_lib
+from lib.deep_learning.layer import Layer
 
 
 class NeuralNetwork:
@@ -23,10 +25,12 @@ class NeuralNetwork:
                 expected = [sum([signal_error[j] * layer.perceptrons[j].weights[i] for j in range(len(signal_error))])
                             for i in range(len(layers_result[-i - 2]))]
 
-    def train(self, inputs, outputs, max_epoch, learning_rate):
+    def train(self, inputs, outputs, max_epoch, learning_rate, progress_signal: Signal(str)):
         error = 1
         for i in range(max_epoch):
-            print(f"Epoch {i + 1}, error: {error}")
+            if QThread.currentThread().isInterruptionRequested():
+                break
+            progress_signal.emit(f"Epoch {i + 1}, error: {error}")
             for input, output in zip(inputs, outputs):
                 self.backpropagate(input, output, learning_rate)
             avg_error = 0

@@ -4,6 +4,8 @@ This is a Python GUI application developed using the QT6 framework. The primary 
 
 It serves as an educational tool and an exciting demonstration of the capabilities of neural networks in learning complex patterns. It allows users to explore the intricate dynamics of the Game of Life and witness the neural network's ability to predict its evolution.
 
+[**Running guide**](RUNNING_GUIDE.md)
+
 ## Neural network training
 
 At its core, the application employs a multi-layer neural network, which serves as an artificial intelligence component to learn and predict the next states of the cellular automaton. This neural network is trained on a random dataset.

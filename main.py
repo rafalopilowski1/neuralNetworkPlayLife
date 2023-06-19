@@ -1,5 +1,4 @@
 import sys
-import threading
 
 from PySide6.QtWidgets import QApplication
 
@@ -21,7 +20,10 @@ if __name__ == "__main__":
 
     neural_network = NeuralNetwork(Layer(4, 3), Layer(3, 2), Layer(2, 1))
 
-    controller = TrainingController(Training(data), neural_network, window)
+    controller = TrainingController(Training(data, 10, 10), neural_network, window.ui)
+
+    app.aboutToQuit.connect(controller.stop)
+
     controller.train()
 
     sys.exit(app.exec())

@@ -1,5 +1,5 @@
 from PySide6.QtCore import Slot
-from PySide6.QtWidgets import QMainWindow, QAbstractItemView
+from PySide6.QtWidgets import QMainWindow, QAbstractItemView, QHeaderView, QTableWidget
 
 from views.about_dialog import AboutDialog
 from views_qt.ui_mainwindow import Ui_MainWindow
@@ -15,6 +15,12 @@ class GuiWindow(QMainWindow):
 
         self.ui.actionAbout.triggered.connect(self.on_about_menu_triggered)
         self.ui.actionQuit.triggered.connect(self.on_about_quit_triggered)
+
+        for table in [self.ui.train_before_tableWidget, self.ui.train_after_tableWidget, self.ui.gen_before_tableWidget,
+                      self.ui.gen_after_tableWidget]:
+            table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
+            table.verticalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
+
 
         self.ui.gen_before_tableWidget.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         self.ui.gen_after_tableWidget.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)

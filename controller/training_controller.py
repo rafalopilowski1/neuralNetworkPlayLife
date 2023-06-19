@@ -1,11 +1,10 @@
 from PySide6.QtCore import QObject, Signal, QThread, Slot
 from PySide6.QtGui import QColorConstants, QColor
-from PySide6.QtWidgets import QTableWidgetItem, QTableWidget, QHeaderView
+from PySide6.QtWidgets import QTableWidgetItem, QTableWidget
 
 from controller.training_worker import TrainWorker
 from controller.utils import get_background
 from models.training_model import Training
-from views_qt.ui_mainwindow import Ui_MainWindow
 
 
 class TrainingController(QObject):
@@ -13,16 +12,12 @@ class TrainingController(QObject):
     on_training_ended = Signal()
     on_training_ongoing = Signal(str)
     gen_count = 0
-    training_model: Training = None
 
-    ui: Ui_MainWindow = None
-    neural_network = None
-
-    train_thread: QThread = None
-    train_worker: TrainWorker = None
-
-    def __init__(self, training_model: Training, neural_network, ui, parent=None):
+    def __init__(self, training_model: Training, neural_network, ui, max_epoch, parent=None):
         super().__init__(parent)
+        self.train_worker = None
+        self.train_thread = None
+        self.max_epoch = max_epoch
         self.ui = ui
         self.training_model = training_model
         self.neural_network = neural_network
@@ -33,14 +28,8 @@ class TrainingController(QObject):
 
         for table in [self.ui.train_before_tableWidget, self.ui.train_after_tableWidget, self.ui.gen_before_tableWidget,
                       self.ui.gen_after_tableWidget]:
-            table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
-            table.verticalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
-            table.horizontalHeader().setVisible(False)
-            table.verticalHeader().setVisible(False)
             table.setRowCount(self.training_model.width)
             table.setColumnCount(self.training_model.height)
-            table.setSelectionMode(QTableWidget.SelectionMode.NoSelection)
-            table.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers)
             for i in range(self.training_model.width):
                 for j in range(self.training_model.height):
                     table.setItem(i, j, QTableWidgetItem())
@@ -53,16 +42,21 @@ class TrainingController(QObject):
     def train(self):
         self.train_thread = QThread(parent=self)
         self.train_thread.setTerminationEnabled(True)
+
         self.train_worker = TrainWorker(self.on_training_data_generated, self.on_training_ended,
                                         self.on_training_ongoing, self.training_model,
-                                        self.neural_network, self.ui)
+                                        self.neural_network, self.ui, self.max_epoch)
         self.train_worker.moveToThread(self.train_thread)
-        self.train_thread.started.connect(self.train_worker.train)
         self.train_worker.progress.connect(self.ui.progressBar.setValue)
+
+        self.train_thread.started.connect(self.train_worker.train)
+        self.train_thread.started.connect(self.disable_cell_selection)
         self.train_thread.start()
+
         self.train_worker.ended.connect(self.train_thread.exit)
         self.train_worker.ended.connect(self.ui.statusBar.clearMessage)
         self.train_worker.ended.connect(self.enable_cell_selection)
+
         self.train_thread.finished.connect(self.enable_train_section)
         self.train_thread.finished.connect(self.train_worker.deleteLater)
 
@@ -153,5 +147,8 @@ class TrainingController(QObject):
 
     @Slot(name="enable_cell_selection")
     def enable_cell_selection(self):
-        for table in [self.ui.train_before_tableWidget, self.ui.gen_before_tableWidget]:
-            table.cellClicked.connect(self.on_cell_clicked)
+        self.ui.train_before_tableWidget.cellClicked.connect(self.on_cell_clicked)
+
+    @Slot(name="disable_cell_selection")
+    def disable_cell_selection(self):
+        self.ui.train_before_tableWidget.cellClicked.disconnect(self.on_cell_clicked)

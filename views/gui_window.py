@@ -15,10 +15,11 @@ class GuiWindow(QMainWindow):
 
         self.ui.actionAbout.triggered.connect(self.on_about_menu_triggered)
         self.ui.actionQuit.triggered.connect(self.on_about_quit_triggered)
-        self.ui.trainButton.clicked.connect(self.on_train_button_clicked)
 
-        self.ui.tableWidget.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
-        self.ui.tableWidget_2.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
+        self.ui.gen_before_tableWidget.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
+        self.ui.gen_after_tableWidget.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
+        self.ui.train_before_tableWidget.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
+        self.ui.train_after_tableWidget.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
 
     @Slot(name="about_menu")
     def on_about_menu_triggered(self):
@@ -28,7 +29,3 @@ class GuiWindow(QMainWindow):
     @Slot(name="about_quit")
     def on_about_quit_triggered(self):
         self.close()
-
-    @Slot(name="train_button")
-    def on_train_button_clicked(self):
-        pass

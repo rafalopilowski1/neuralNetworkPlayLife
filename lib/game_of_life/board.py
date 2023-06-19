@@ -1,5 +1,5 @@
 from copy import deepcopy
-from random import choice
+from random import random
 from typing import List
 
 from lib.deep_learning.input import Input
@@ -8,7 +8,7 @@ from lib.game_of_life.cell import Cell
 
 def get_random(width, height):
     cells = [
-        Cell(i % width, i // width, choice([True, False]))
+        Cell(i % width, i // width, (random() >= 0.5))
         for i in range(width * height)
     ]
     return Board(width, height, cells)
@@ -22,15 +22,18 @@ class Board:
         self.cells = cells
 
     def next_generation(self):
-        previous_cells = deepcopy(self.cells)
-        for cell in self.cells:
-            cell.next_generation(self.cells)
-        return Board(self.width, self.height, previous_cells)
+        next_cells = deepcopy(self.cells)
+        for cell in next_cells:
+            cell.next_generation(next_cells)
+        return Board(self.width, self.height, next_cells)
 
     def get_sample_iterations(self, iterations: int):
-        boards = [self]
-        for i in range(iterations):
-            boards.append(boards[i].next_generation())
+        boards = []
+        current = deepcopy(self)
+        for _ in range(iterations+1):
+            next = current.next_generation()
+            boards.append(next)
+            current = next
         return boards
 
     def get_training_data(self, iterations: int):

@@ -6,14 +6,14 @@ class Cell:
         self.lives = lives
 
     def next_generation(self, cells):
-        nearby_cells = [
-            cell for cell in cells if cell != self and cell.is_nearby(self)
+        nearby_living_cells = [
+            cell for cell in cells if cell != self and cell.is_nearby(self) and cell.lives
         ]
         if self.lives:
-            if len(nearby_cells) < 2 or len(nearby_cells) > 3:
+            if len(nearby_living_cells) < 2 or len(nearby_living_cells) > 3:
                 self.lives = False
         else:
-            if len(nearby_cells) == 3:
+            if len(nearby_living_cells) == 3:
                 self.lives = True
 
     def is_nearby(self, cell) -> bool:

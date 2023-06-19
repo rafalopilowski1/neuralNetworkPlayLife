@@ -108,8 +108,15 @@ class TrainingController(QObject):
             for column in range(self.training_model.height):
                 self.ui.gen_before_tableWidget.item(row, column).setBackground(
                     get_background(current_gen[column][row].lives))
+                self.ui.train_before_tableWidget.item(row, column).setBackground(
+                    get_background(current_gen[column][row].lives))
+
                 self.ui.gen_after_tableWidget.item(row, column).setBackground(
                     get_background(next_gen[column][row].lives))
+                if self.train_thread.isRunning():
+                    continue
+                self.ui.train_after_tableWidget.item(row, column).setBackground(
+                    get_background(self.neural_network.predict(current_gen[column][row].input)))
 
         self.gen_count += 1
         self.ui.genLcdNumber.display(self.gen_count)
@@ -127,8 +134,15 @@ class TrainingController(QObject):
             for column in range(self.training_model.height):
                 self.ui.gen_before_tableWidget.item(row, column).setBackground(
                     get_background(current_gen[column][row].lives))
+                self.ui.train_before_tableWidget.item(row, column).setBackground(
+                    get_background(current_gen[column][row].lives))
+
                 self.ui.gen_after_tableWidget.item(row, column).setBackground(
                     get_background(next_gen[column][row].lives))
+                if self.train_thread.isRunning():
+                    continue
+                self.ui.train_after_tableWidget.item(row, column).setBackground(
+                    get_background(self.neural_network.predict(current_gen[column][row].input)))
 
         self.gen_count -= 1
         self.ui.genLcdNumber.display(self.gen_count)

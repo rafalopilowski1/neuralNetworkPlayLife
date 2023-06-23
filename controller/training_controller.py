@@ -50,7 +50,7 @@ class TrainingController(QObject):
         self.ui.previousButton.setEnabled(False)
         self.ui.nextButton.clicked.connect(self.increase_gen_count)
 
-        self.show_gens_on_tables(self.gen_count + 1)
+        self.show_gens_on_tables(self.gen_count)
 
         self.enable_cell_selection()
 
@@ -155,16 +155,13 @@ class TrainingController(QObject):
         self.ui.genLcdNumber.display(self.gen_count)
         if self.gen_count > 0:
             self.ui.previousButton.setEnabled(True)
-        if self.gen_count == self.training_model.get_max_generation():
+        if self.gen_count == self.training_model.get_max_generation() - 1:
             self.ui.nextButton.setEnabled(False)
-        self.show_gens_on_tables(self.gen_count, reverse=True)
+        self.show_gens_on_tables(self.gen_count)
 
-    def show_gens_on_tables(self, goal_gen: int, reverse: bool = False):
+    def show_gens_on_tables(self, goal_gen: int):
         current_gen = self.training_model.get_generation(goal_gen)
-        if reverse:
-            next_gen = self.training_model.get_generation(goal_gen - 1)
-        else:
-            next_gen = self.training_model.get_generation(goal_gen + 1)
+        next_gen = self.training_model.get_generation(goal_gen + 1)
 
         for row in range(self.training_model.width):
             for column in range(self.training_model.height):
@@ -175,7 +172,7 @@ class TrainingController(QObject):
 
                 self.ui.gen_after_tableWidget.item(row, column).setBackground(
                     get_background(next_gen[column][row].lives))
-                if self.train_thread is not None and self.train_thread.isRunning():
+                if self.train_thread is None or self.train_thread.isRunning():
                     continue
                 self.ui.train_after_tableWidget.item(row, column).setBackground(
                     get_background(self.neural_network.predict(current_gen[column][row].input)))
@@ -193,7 +190,7 @@ class TrainingController(QObject):
             self.ui.previousButton.setEnabled(False)
         if self.gen_count != self.training_model.get_max_generation():
             self.ui.nextButton.setEnabled(True)
-        self.show_gens_on_tables(self.gen_count, reverse=False)
+        self.show_gens_on_tables(self.gen_count)
 
     @Slot(name="enable_cell_selection")
     def enable_cell_selection(self):

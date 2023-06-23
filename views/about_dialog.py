@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import QDialog
 
-from views_qt.ui_dialog import Ui_Dialog
+from views_qt.ui_dialog import Ui_AboutDialog
 
 
 class AboutDialog(QDialog):
@@ -12,5 +12,5 @@ class AboutDialog(QDialog):
         Constructor
         """
         super().__init__()
-        self.ui = Ui_Dialog()
+        self.ui = Ui_AboutDialog()
         self.ui.setupUi(self)

@@ -52,6 +52,8 @@ class TrainingController(QObject):
 
         self.show_gens_on_tables(self.gen_count + 1)
 
+        self.enable_cell_selection()
+
     def initialize_table_widgets(self):
         for table in [self.ui.train_before_tableWidget, self.ui.train_after_tableWidget, self.ui.gen_before_tableWidget,
                       self.ui.gen_after_tableWidget]:
@@ -77,12 +79,10 @@ class TrainingController(QObject):
         self.train_worker.progress.connect(self.ui.progressBar.setValue)
 
         self.train_thread.started.connect(self.train_worker.train)
-        self.train_thread.started.connect(self.disable_cell_selection)
         self.train_thread.start()
 
         self.train_worker.ended.connect(self.train_thread.exit)
         self.train_worker.ended.connect(self.ui.statusBar.clearMessage)
-        self.train_worker.ended.connect(self.enable_cell_selection)
 
         self.train_thread.finished.connect(self.enable_train_section)
         self.train_thread.finished.connect(self.train_worker.deleteLater)
@@ -95,6 +95,8 @@ class TrainingController(QObject):
         :param column: Y coordinate
         :return: None
         """
+        if self.train_thread is not None and self.train_thread.isRunning():
+            return
         table: QTableWidget = self.sender()
         item: QTableWidgetItem = table.item(row, column)
         item.setBackground(
@@ -149,18 +151,21 @@ class TrainingController(QObject):
         Slot called when the next button is clicked, increase the generation count and refresh the UI
         :return: None
         """
-        self.show_gens_on_tables(self.gen_count + 1)
-
         self.gen_count += 1
         self.ui.genLcdNumber.display(self.gen_count)
         if self.gen_count > 0:
             self.ui.previousButton.setEnabled(True)
         if self.gen_count == self.training_model.get_max_generation():
             self.ui.nextButton.setEnabled(False)
+        self.show_gens_on_tables(self.gen_count, reverse=True)
 
-    def show_gens_on_tables(self, goal_gen: int):
-        current_gen = self.training_model.get_generation(self.gen_count)
-        next_gen = self.training_model.get_generation(goal_gen)
+    def show_gens_on_tables(self, goal_gen: int, reverse: bool = False):
+        current_gen = self.training_model.get_generation(goal_gen)
+        if reverse:
+            next_gen = self.training_model.get_generation(goal_gen - 1)
+        else:
+            next_gen = self.training_model.get_generation(goal_gen + 1)
+
         for row in range(self.training_model.width):
             for column in range(self.training_model.height):
                 self.ui.gen_before_tableWidget.item(row, column).setBackground(
@@ -170,7 +175,7 @@ class TrainingController(QObject):
 
                 self.ui.gen_after_tableWidget.item(row, column).setBackground(
                     get_background(next_gen[column][row].lives))
-                if self.train_thread.isRunning():
+                if self.train_thread is not None and self.train_thread.isRunning():
                     continue
                 self.ui.train_after_tableWidget.item(row, column).setBackground(
                     get_background(self.neural_network.predict(current_gen[column][row].input)))
@@ -181,14 +186,14 @@ class TrainingController(QObject):
         Slot called when the previous button is clicked, decrease the generation count and refresh the UI
         :return: None
         """
-        self.show_gens_on_tables(self.gen_count - 1)
-
-        self.gen_count -= 1
+        if self.gen_count > 0:
+            self.gen_count -= 1
         self.ui.genLcdNumber.display(self.gen_count)
         if self.gen_count == 0:
             self.ui.previousButton.setEnabled(False)
         if self.gen_count != self.training_model.get_max_generation():
             self.ui.nextButton.setEnabled(True)
+        self.show_gens_on_tables(self.gen_count, reverse=False)
 
     @Slot(name="enable_cell_selection")
     def enable_cell_selection(self):
@@ -197,11 +202,3 @@ class TrainingController(QObject):
         :return: None
         """
         self.ui.train_before_tableWidget.cellClicked.connect(self.on_cell_clicked)
-
-    @Slot(name="disable_cell_selection")
-    def disable_cell_selection(self):
-        """
-        Slot called when the training is started, disable the cell selection
-        :return: None
-        """
-        self.ui.train_before_tableWidget.cellClicked.disconnect(self.on_cell_clicked)

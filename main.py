@@ -14,7 +14,10 @@ if __name__ == "__main__":
     window = GuiWindow()
     window.show()
 
-    generator = Generator(10, 10, 50)
+    width = 10
+    height = 10
+
+    generator = Generator(width, height, 10)
     generator.generate('training_data.csv')
     data = generator.get_data()
 
@@ -22,7 +25,7 @@ if __name__ == "__main__":
     layers = [Layer(4, 3), Layer(3, 2), Layer(2, 1)]
     neural_network = NeuralNetwork(*layers)
 
-    controller = TrainingController(Training(data, 10, 10), neural_network, window.ui, max_epoch, window)
+    controller = TrainingController(Training(data, width, height), neural_network, window.ui, max_epoch, window)
 
     app.aboutToQuit.connect(controller.stop)
 

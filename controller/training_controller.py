@@ -55,6 +55,10 @@ class TrainingController(QObject):
         self.enable_cell_selection()
 
     def initialize_table_widgets(self):
+        """
+        Initialize the table widgets
+        :return: None
+        """
         for table in [self.ui.train_before_tableWidget, self.ui.train_after_tableWidget, self.ui.gen_before_tableWidget,
                       self.ui.gen_after_tableWidget]:
             table.setRowCount(self.training_model.width)
@@ -160,6 +164,11 @@ class TrainingController(QObject):
         self.show_gens_on_tables(self.gen_count)
 
     def show_gens_on_tables(self, goal_gen: int):
+        """
+        Show the current and next generation on the tables
+        :param goal_gen: Current generation
+        :return: None
+        """
         current_gen = self.training_model.get_generation(goal_gen)
         next_gen = self.training_model.get_generation(goal_gen + 1)
 

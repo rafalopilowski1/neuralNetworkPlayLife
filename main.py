@@ -14,10 +14,10 @@ if __name__ == "__main__":
     window = GuiWindow()
     window.show()
 
-    width = 5
-    height = 5
+    width = 10
+    height = 10
 
-    generator = Generator(width, height, 30)
+    generator = Generator(width, height, 10)
     generator.generate('training_data.csv')
     data = generator.get_data()
 

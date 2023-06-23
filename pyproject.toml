@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "neuralNetworkPlayLife"
-version = "0.1.0"
-description = ""
+version = "1.0.0"
+description = "GUI app for testing neural networks on Conway's Game of Life"
 authors = ["Rafał Opiłowski <rafalopilowski1@outlook.com>"]
 
 [tool.poetry.dependencies]

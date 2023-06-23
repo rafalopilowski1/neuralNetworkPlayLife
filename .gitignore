@@ -4,6 +4,9 @@
 # Training data
 training_data.csv
 
+# Sphinx build
+docs/build
+
 # PyCharm files
 
 .idea

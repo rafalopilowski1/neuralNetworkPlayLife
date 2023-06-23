@@ -44,6 +44,15 @@ class TrainingController(QObject):
 
         self.ui.trainButton.clicked.connect(self.on_train_button_clicked)
 
+        self.initialize_table_widgets()
+
+        self.ui.previousButton.clicked.connect(self.decrease_gen_count)
+        self.ui.previousButton.setEnabled(False)
+        self.ui.nextButton.clicked.connect(self.increase_gen_count)
+
+        self.show_gens_on_tables(self.gen_count + 1)
+
+    def initialize_table_widgets(self):
         for table in [self.ui.train_before_tableWidget, self.ui.train_after_tableWidget, self.ui.gen_before_tableWidget,
                       self.ui.gen_after_tableWidget]:
             table.setRowCount(self.training_model.width)
@@ -52,10 +61,6 @@ class TrainingController(QObject):
                 for j in range(self.training_model.height):
                     table.setItem(i, j, QTableWidgetItem())
                     table.item(i, j).setBackground(QColorConstants.Gray)
-
-        self.ui.previousButton.clicked.connect(self.decrease_gen_count)
-        self.ui.previousButton.setEnabled(False)
-        self.ui.nextButton.clicked.connect(self.increase_gen_count)
 
     def train(self):
         """
@@ -144,22 +149,7 @@ class TrainingController(QObject):
         Slot called when the next button is clicked, increase the generation count and refresh the UI
         :return: None
         """
-        current_gen = self.training_model.get_generation(self.gen_count)
-        next_gen = self.training_model.get_generation(self.gen_count + 1)
-
-        for row in range(self.training_model.width):
-            for column in range(self.training_model.height):
-                self.ui.gen_before_tableWidget.item(row, column).setBackground(
-                    get_background(current_gen[column][row].lives))
-                self.ui.train_before_tableWidget.item(row, column).setBackground(
-                    get_background(current_gen[column][row].lives))
-
-                self.ui.gen_after_tableWidget.item(row, column).setBackground(
-                    get_background(next_gen[column][row].lives))
-                if self.train_thread.isRunning():
-                    continue
-                self.ui.train_after_tableWidget.item(row, column).setBackground(
-                    get_background(self.neural_network.predict(current_gen[column][row].input)))
+        self.show_gens_on_tables(self.gen_count + 1)
 
         self.gen_count += 1
         self.ui.genLcdNumber.display(self.gen_count)
@@ -168,15 +158,9 @@ class TrainingController(QObject):
         if self.gen_count == self.training_model.get_max_generation():
             self.ui.nextButton.setEnabled(False)
 
-    @Slot(name="decrease_gen_count")
-    def decrease_gen_count(self):
-        """
-        Slot called when the previous button is clicked, decrease the generation count and refresh the UI
-        :return: None
-        """
+    def show_gens_on_tables(self, goal_gen: int):
         current_gen = self.training_model.get_generation(self.gen_count)
-        next_gen = self.training_model.get_generation(self.gen_count - 1)
-
+        next_gen = self.training_model.get_generation(goal_gen)
         for row in range(self.training_model.width):
             for column in range(self.training_model.height):
                 self.ui.gen_before_tableWidget.item(row, column).setBackground(
@@ -190,6 +174,14 @@ class TrainingController(QObject):
                     continue
                 self.ui.train_after_tableWidget.item(row, column).setBackground(
                     get_background(self.neural_network.predict(current_gen[column][row].input)))
+
+    @Slot(name="decrease_gen_count")
+    def decrease_gen_count(self):
+        """
+        Slot called when the previous button is clicked, decrease the generation count and refresh the UI
+        :return: None
+        """
+        self.show_gens_on_tables(self.gen_count - 1)
 
         self.gen_count -= 1
         self.ui.genLcdNumber.display(self.gen_count)
